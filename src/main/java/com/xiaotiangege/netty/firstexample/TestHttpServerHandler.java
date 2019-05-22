@@ -11,14 +11,61 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
-        ByteBuf content = Unpooled.copiedBuffer("hello world", CharsetUtil.UTF_8);
 
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
-        //FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_0, HttpResponseStatus.OK, content);
+        if (msg instanceof HttpRequest){
+            HttpRequest request = (HttpRequest)msg;
+            String uri = request.uri();
 
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
-        response.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
+            System.out.println("request method : " + request.method().name());
+            System.out.println("request uri : " + uri);
 
-        ctx.writeAndFlush(response);
+            ByteBuf content = Unpooled.copiedBuffer("hello world", CharsetUtil.UTF_8);
+
+            if ("/favicon.ico".equals(uri)){
+                content = Unpooled.copiedBuffer("", CharsetUtil.UTF_8);
+            }
+
+            FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
+            response.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
+
+            ctx.writeAndFlush(response);
+        }
+    }
+
+    @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("public void channelRegistered");
+        super.channelRegistered(ctx);
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("public void channelActive");
+        super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("public void channelRead");
+        super.channelRead(ctx, msg);
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("public void channelReadComplete");
+        super.channelReadComplete(ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("public void channelInactive");
+        super.channelInactive(ctx);
+    }
+
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("public void channelUnregistered");
+        super.channelUnregistered(ctx);
     }
 }

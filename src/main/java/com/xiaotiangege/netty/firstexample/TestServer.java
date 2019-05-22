@@ -14,8 +14,10 @@ public class TestServer {
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)//
-                    .childHandler(new TestServerInitializer());
+             .childHandler(new TestServerInitializer());
+
             ChannelFuture channelFuture = b.bind(8080).sync();
+            System.out.println("server start ...");
             channelFuture.channel().closeFuture().sync();
         }finally {
             bossGroup.shutdownGracefully();
