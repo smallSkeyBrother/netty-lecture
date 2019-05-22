@@ -9,6 +9,10 @@ import io.netty.util.CharsetUtil;
 
 public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
+    public TestHttpServerHandler() {
+        System.out.println("TestHttpServerHandler created ...");
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
 
