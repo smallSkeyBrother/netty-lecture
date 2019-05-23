@@ -1,6 +1,5 @@
 package com.xiaotiangege.netty.fourexample;
 
-import com.xiaotiangege.netty.firstexample.TestServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -15,7 +14,7 @@ public class MyBeatServer {
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)//
-             .childHandler(new TestServerInitializer());
+             .childHandler(new MyBeatServerInitializer());
 
             ChannelFuture channelFuture = b.bind(8989).sync();
             System.out.println("server start ...");
