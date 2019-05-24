@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @Description //websocket处理器
  * @Date 2019/5/24 10:17
  **/
-public class MyWebsocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class MyWebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         System.out.println("接收到客户端消息：" + msg.text());

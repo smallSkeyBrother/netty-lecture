@@ -15,7 +15,7 @@ import io.netty.handler.stream.ChunkedWriteHandler;
  * @Description //TODO
  * @Date 2019/5/24 10:11
  **/
-public class MyWebsocketServerInitializer extends ChannelInitializer {
+public class MyWebSocketServerInitializer extends ChannelInitializer {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
@@ -23,7 +23,7 @@ public class MyWebsocketServerInitializer extends ChannelInitializer {
         pipeline.addLast(new ChunkedWriteHandler());
         pipeline.addLast(new HttpObjectAggregator(8192));
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
-        pipeline.addLast(new MyWebsocketServerHandler());
+        pipeline.addLast(new MyWebSocketServerHandler());
     }
 
     @Override
