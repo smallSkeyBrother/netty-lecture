@@ -1,4 +1,4 @@
-package com.xiaotiangege.netty.protobuf;
+package com.xiaotiangege.serialize.protobuf;
 
 /**
  * @author wangfeilong
