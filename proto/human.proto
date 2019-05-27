@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package message;
+
+option java_package = "com.xiaotiangege.serialize.protobuf";
+option java_outer_classname = "Human";
+
+message Teacher{
+    int32 id = 1;
+    string name = 2;
+}
+
+message Student{
+    int32 id = 1;
+    string name = 2;
+}
+
+message People{
+    enum DataType{
+        TEACHER = 0;
+        STUDENT = 1;
+    }
+
+    DataType type = 1;
+
+    oneof dataMsg {
+        Student stu = 2;
+        Teacher teacher = 3;
+    }
+}
