@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package message;
+
+option java_package = "com.xiaotiangege.netty.protobuf";
+option java_outer_classname = "Users";
+
+message Person{
+    optional string name = 1;
+    optional int32 age = 2;
+    optional string sex = 3;
+}
+##D:\IdeaProjects\netty-lecture>protoc --java_out=./src/main/java ./proto/person.proto
