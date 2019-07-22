@@ -19,6 +19,6 @@ public class WebServerInitializer extends ChannelInitializer<SocketChannel> {
          *  HttpServerCodec相当HttpRequestDecoder和HttpResponseEncoder功能的组合
          */
         pipeline.addLast("httpServerCodec", new HttpServerCodec());
-        pipeline.addLast("testHttpServerHandler", new WebHttpServerHandler());
+        pipeline.addLast("testHttpServerHandler", new WebHttpServerDispatcher());
     }
 }

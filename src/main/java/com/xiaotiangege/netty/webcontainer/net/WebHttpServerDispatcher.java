@@ -1,5 +1,6 @@
 package com.xiaotiangege.netty.webcontainer.net;
 
+import com.alibaba.fastjson.JSON;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -7,9 +8,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
-public class WebHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+import java.nio.charset.Charset;
 
-    public WebHttpServerHandler() {
+public class WebHttpServerDispatcher extends SimpleChannelInboundHandler<HttpObject> {
+
+    public WebHttpServerDispatcher() {
         System.out.println("TestHttpServerHandler created ...");
     }
 
@@ -20,13 +23,23 @@ public class WebHttpServerHandler extends SimpleChannelInboundHandler<HttpObject
             HttpRequest request = (HttpRequest)msg;
             String uri = request.uri();
 
+            int firstbackslash = uri.indexOf("/");
+            if (firstbackslash == 0){
+                uri = uri.substring(1, uri.length());
+                System.out.println(uri);
+            }
+
             System.out.println("request method : " + request.method().name());
             System.out.println("request uri : " + uri);
 
             ByteBuf content = Unpooled.copiedBuffer("hello world", CharsetUtil.UTF_8);
 
-            if ("/favicon.ico".equals(uri)){
+            if ("favicon.ico".equals(uri)){
                 content = Unpooled.copiedBuffer("", CharsetUtil.UTF_8);
+            }
+
+            if ("index".equals(uri)){
+                content = Unpooled.copiedBuffer(JSON.toJSONString("欢迎来到netty服务"), Charset.forName("gbk"));
             }
 
             FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);

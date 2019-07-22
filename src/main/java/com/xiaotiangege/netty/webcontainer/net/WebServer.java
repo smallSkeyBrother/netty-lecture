@@ -25,7 +25,7 @@ public class WebServer {
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)//
              .childHandler(new WebServerInitializer());
 
-            ChannelFuture channelFuture = b.bind(8080).sync();
+            ChannelFuture channelFuture = b.bind(8081).sync();
             System.out.println("server start ...");
             channelFuture.channel().closeFuture().sync();
         }finally {
