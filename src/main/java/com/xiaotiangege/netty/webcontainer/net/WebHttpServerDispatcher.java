@@ -1,6 +1,7 @@
 package com.xiaotiangege.netty.webcontainer.net;
 
 import com.alibaba.fastjson.JSON;
+import com.xiaotiangege.netty.webcontainer.User;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -23,6 +24,9 @@ public class WebHttpServerDispatcher extends SimpleChannelInboundHandler<HttpObj
             HttpRequest request = (HttpRequest)msg;
             String uri = request.uri();
 
+
+            HttpMethod method = request.method();
+
             int firstbackslash = uri.indexOf("/");
             if (firstbackslash == 0){
                 uri = uri.substring(1, uri.length());
@@ -41,6 +45,12 @@ public class WebHttpServerDispatcher extends SimpleChannelInboundHandler<HttpObj
             if ("index".equals(uri)){
                 content = Unpooled.copiedBuffer(JSON.toJSONString("欢迎来到netty服务"), Charset.forName("gbk"));
             }
+
+            User u = new User("userName", "email", "address", 100, (byte) 1);
+            if ("user/info".equals(uri)){
+                content = Unpooled.copiedBuffer(JSON.toJSONString(u), Charset.forName("gbk"));
+            }
+
 
             FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
@@ -85,4 +95,26 @@ public class WebHttpServerDispatcher extends SimpleChannelInboundHandler<HttpObj
         System.out.println("public void channelUnregistered");
         super.channelUnregistered(ctx);
     }
+
+    public static void main(String[] args) {
+        String json = "";
+        boolean flag = JSON.isValid(json);
+        System.out.println(" \"\" is json : " + JSON.isValid(""));
+        System.out.println(" null is json : " + JSON.isValid(null));
+        System.out.println(" {} is json : " + JSON.isValid("{}"));
+        System.out.println(" {\n" +
+                "address: \"address\",\n" +
+                "age: 100,\n" +
+                "email: \"email\",\n" +
+                "sex: 1,\n" +
+                "userName: \"userName\"\n" +
+                "} is json : " + JSON.isValid("{\n" +
+                "address: \"address\",\n" +
+                "age: 100,\n" +
+                "email: \"email\",\n" +
+                "sex: 1,\n" +
+                "userName: \"userName\"\n" +
+                "}"));
+    }
+
 }
