@@ -9,6 +9,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 
 public class WebHttpServerDispatcher extends SimpleChannelInboundHandler<HttpObject> {
@@ -23,7 +24,6 @@ public class WebHttpServerDispatcher extends SimpleChannelInboundHandler<HttpObj
         if (msg instanceof HttpRequest){
             HttpRequest request = (HttpRequest)msg;
             String uri = request.uri();
-
 
             HttpMethod method = request.method();
 
@@ -96,7 +96,7 @@ public class WebHttpServerDispatcher extends SimpleChannelInboundHandler<HttpObj
         super.channelUnregistered(ctx);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         String json = "";
         boolean flag = JSON.isValid(json);
         System.out.println(" \"\" is json : " + JSON.isValid(""));
@@ -115,6 +115,16 @@ public class WebHttpServerDispatcher extends SimpleChannelInboundHandler<HttpObj
                 "sex: 1,\n" +
                 "userName: \"userName\"\n" +
                 "}"));
+
+        User u = new User("userName", "email", "address", 100, (byte) 1);
+
+        Class<?> clazz = User.class;
+        Field field = User.class.getDeclaredField("userName");
+        field.setAccessible(true);
+        System.out.println("old name == " + field.get(u));
+        field.set(u, "zhangsan");
+        System.out.println("new name == " + field.get(u));
+        field.setAccessible(false);
     }
 
 }
