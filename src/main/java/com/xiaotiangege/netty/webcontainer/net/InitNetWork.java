@@ -5,6 +5,8 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -15,6 +17,8 @@ import java.util.Objects;
  * @Date 2019/7/22 9:57
  **/
 public class InitNetWork {
+
+    private static Logger log = LoggerFactory.getLogger(InitNetWork.class);
 
     private int port = 80;
 
@@ -41,7 +45,7 @@ public class InitNetWork {
         ChannelFuture channelFuture = b.bind(port).sync();
 
         if (channelFuture.isSuccess()){
-            System.out.println("打印日志: server start success, bind port :" + port);
+            log.info("server start success, bind port {}", port);
         }
     }
 
