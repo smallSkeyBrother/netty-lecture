@@ -1,10 +1,6 @@
 package com.xiaotiangege.netty.webcontainer.interceptors.bean;
 
 import com.xiaotiangege.netty.webcontainer.interceptors.BizInterceptor;
-import org.omg.PortableInterceptor.Interceptor;
-
-import java.util.Objects;
-
 /**
  * @author wangfeilong
  * @version v1.0

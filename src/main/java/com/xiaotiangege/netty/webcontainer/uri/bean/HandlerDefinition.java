@@ -13,7 +13,7 @@ public class HandlerDefinition {
 
     private String baseUri = "/";
 
-    private String method = "/";
+    private String methodUri = "/";
 
     private Objects controller;
 
@@ -22,6 +22,10 @@ public class HandlerDefinition {
     private Method dealMethod;
 
     private Object[] params;
+
+    public String requestUri() {
+        return baseUri.concat(methodUri);
+    }
 
     public Objects getController() {
         return controller;
@@ -33,19 +37,18 @@ public class HandlerDefinition {
 
     public String getBaseUri() {
         return baseUri;
-
     }
 
     public void setBaseUri(String baseUri) {
         this.baseUri = baseUri;
     }
 
-    public String getMethod() {
-        return method;
+    public String getMethodUri() {
+        return methodUri;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public void setMethodUri(String methodUri) {
+        this.methodUri = methodUri;
     }
 
     public Class<?> getControllerClass() {

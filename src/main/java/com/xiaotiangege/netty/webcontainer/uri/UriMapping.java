@@ -1,11 +1,8 @@
 package com.xiaotiangege.netty.webcontainer.uri;
 
-import com.xiaotiangege.netty.webcontainer.interceptors.BizInterceptor;
-import com.xiaotiangege.netty.webcontainer.interceptors.InterceptManager;
-import com.xiaotiangege.netty.webcontainer.interceptors.InterceptorsChain;
+import com.xiaotiangege.netty.webcontainer.exception.ContainerException;
 import com.xiaotiangege.netty.webcontainer.uri.bean.HandlerDefinition;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,8 +19,15 @@ public class UriMapping {
      */
     private Map<String, HandlerDefinition> uriHandlerMapping = new ConcurrentHashMap<>(64);
 
-    public boolean addMapping() {
-        return true;
+    /**
+     * 解析添加映射
+     *
+     * @param uri
+     * @param definition
+     * @return
+     */
+    public HandlerDefinition addMapping(String uri, HandlerDefinition definition) {
+        return uriHandlerMapping.put(uri, definition);
     }
 
     /**
@@ -31,21 +35,15 @@ public class UriMapping {
      *
      * @return
      */
-    public InterceptorsChain getHandler(String uri) {
+    public HandlerDefinition getHandler(String uri) {
         if (uriHandlerMapping.size() <= 0) {
-            throw new RuntimeException("");
+            throw new ContainerException("500");
         }
 
         if (!uriHandlerMapping.containsKey(uri)) {
-            throw new RuntimeException("404");
+            throw new ContainerException("404");
         }
 
-        HandlerDefinition handlerDefinition = uriHandlerMapping.get(uri);
-
-        //InterceptManager
-        InterceptManager im = new InterceptManager();
-        List<BizInterceptor> interceptors = im.getHandlerIntercepts(uri);
-
-        return InterceptorsChain.builder().requestUri(uri).handlerDefinition(handlerDefinition).interceptors(interceptors).build();
+        return uriHandlerMapping.get(uri);
     }
 }
