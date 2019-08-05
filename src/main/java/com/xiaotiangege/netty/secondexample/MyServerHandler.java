@@ -22,4 +22,10 @@ public class MyServerHandler extends SimpleChannelInboundHandler<String> {
         ByteBuf content = Unpooled.copiedBuffer(UUID.randomUUID().toString(), CharsetUtil.UTF_8);
         ctx.writeAndFlush(content);
     }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        //super.exceptionCaught(ctx, cause);
+        System.out.println("connection closed ...");
+    }
 }

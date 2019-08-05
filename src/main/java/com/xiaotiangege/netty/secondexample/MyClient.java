@@ -7,6 +7,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import java.net.InetSocketAddress;
+
 /**
  * @author wangfeilong
  * @version v1.0
@@ -21,7 +23,7 @@ public class MyClient {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(worker).channel(NioSocketChannel.class).handler(new MyClientInitializer());
 
-            ChannelFuture future = bootstrap.connect("localhost", 8989).sync();
+            ChannelFuture future = bootstrap.connect(new InetSocketAddress("localhost", 8989)).sync();
             future.channel().closeFuture().sync();
         }finally {
             worker.shutdownGracefully();
